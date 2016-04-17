@@ -342,8 +342,12 @@ public class AplikasiKonsol {
             ar[0][2] = Integer.toString(pro.getSizeProgrammer());
             ar[0][3] = Integer.toString(pro.getSizeTugas());
             for (int i = 1; i <= pro.getSizeTugas(); i++) {
-                ar[i][0] = pro.getTugas(i - 1).getNamaTugas();
-                ar[i][1] = Integer.toString(pro.getTugas(i - 1).getStatus());
+                if (pro.getTugas(i - 1).getPelaksana() != null) {
+                    if (pro.getTugas(i - 1).getPelaksana().equals(p)) {
+                        ar[i][0] = pro.getTugas(i - 1).getNamaTugas();
+                        ar[i][1] = Integer.toString(pro.getTugas(i - 1).getStatus());
+                    }
+                }
             }
             return ar;
         } else {
@@ -360,7 +364,8 @@ public class AplikasiKonsol {
             }
             return null;
         } catch (Exception e) {
-            throw new IllegalStateException("Set status tugas gagal.");}
+            throw new IllegalStateException("Set status tugas gagal.");
+        }
     }
 
     //Me-nullkan Programmer dan Proyek aktif.
@@ -505,10 +510,14 @@ public class AplikasiKonsol {
     //Mengeset Tugas dengan indexTugas dan indexPelaksana pada proyek yang aktif.
     public Tugas menuSetPelaksana(int indexPelaksana, int indexTugas) {
         if (indexPelaksana < pro.getSizeProgrammer() && indexTugas < pro.getSizeTugas() && indexPelaksana > -1 && indexTugas > -1) {
-            pro.getTugas(indexTugas).setPelaksana(pro.getProgrammer(indexPelaksana));
-            return pro.getTugas(indexTugas);
+            if (pro.getTugas(indexTugas).getStatus() != 1) {
+                pro.getTugas(indexTugas).setPelaksana(pro.getProgrammer(indexPelaksana));
+                return pro.getTugas(indexTugas);
+            } else {
+                throw new IllegalStateException("Gagal, Tugas selesai tidak bisa di set pelaksana.");
+            }
         } else {
-            throw new IllegalStateException("Set Pelaksana gagal");
+            throw new IllegalStateException("Gagal,indeks tidak ditemukan");
         }
 
     }
