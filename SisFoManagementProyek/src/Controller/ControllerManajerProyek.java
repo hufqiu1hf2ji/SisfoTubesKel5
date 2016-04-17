@@ -216,8 +216,9 @@ public class ControllerManajerProyek implements ActionListener {
             }
 
         } catch (Exception e) {
-            throw new IllegalStateException("Gagal View Tambah Pelaksana");
+            dpMP.viewErrorMsg(e.getMessage());
         }
+        return null;
     }
 
     public void ViewPelaksanaProyek() {
@@ -381,7 +382,7 @@ public class ControllerManajerProyek implements ActionListener {
             } catch (Exception e) {
                 dpMP.viewErrorMsg(e.getMessage());
             }
-            ViewTambahPelaksana();
+            arTambahP = ViewTambahPelaksana();
             ViewPelaksanaProyek();
         }
 
